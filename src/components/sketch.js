@@ -1,6 +1,7 @@
 import React, { useRef, useEffect } from 'react';
 import Sketch from 'react-p5';
 import Monkey from './Monkey';
+import Box from './Box';
 
 let environ;
 
@@ -16,7 +17,6 @@ class Environment {
     }
 
     drawBoard(p5) {
-        console.log("called");
         for (let i = 0; i < this.board.length; i++) { // Start loop from 0 to include all cells
             for (let j = 0; j < this.board[i].length; j++) {
                 this.board[i][j].drawBox(p5, i * 10, j * 10, 10, 10);
@@ -28,30 +28,12 @@ class Environment {
     }
 
     placeFood(p5) {
-        console.log(2)
         if (p5.random(1) >= 0.993) {
             // Make sure to convert random values to integers
             let h = Math.floor(p5.random(this.board.length));
             let w = Math.floor(p5.random(this.board[0].length));
             this.board[h][w] = new Box(p5,'food');
         }
-    }
-}
-
-class Box {
-    constructor(p5, kind) {
-        this.kind = kind;
-        if (this.kind == 'land') {
-            this.color = p5.color(p5.random(99, 110), p5.random(219, 230), p5.random(65, 70));
-        } else if (this.kind == 'food') {
-            this.color = p5.color(247, 15, 2);
-        }
-    }
-
-    drawBox(p5, x, y, w, h) {
-        p5.fill(this.color);
-        p5.noStroke();
-        p5.rect(x, y, w, h);
     }
 }
 
@@ -64,7 +46,8 @@ function P5Sketch() {
       p5.createCanvas(1500, 1500).parent(canvasParentRef);
       // Initialize environment instance
       environ.current = new Environment(p5, 135, 72);
-      environ.current.board[10][10] = new Monkey(p5, 10, 0.5, environ.current);
+      environ.current.board[10][10] = new Monkey(p5, 100, 1, environ.current);
+      environ.current.board[10][11] = new Monkey(p5, 20, .5, environ.current);
       environ.current.drawBoard(p5);
     };
   
