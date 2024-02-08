@@ -28,7 +28,7 @@ class Environment {
     }
 
     placeFood(p5) {
-        if (p5.random(1) >= 0.993) {
+        if (p5.random(1) >= 0.99) {
             // Make sure to convert random values to integers
             let h = Math.floor(p5.random(this.board.length));
             let w = Math.floor(p5.random(this.board[0].length));
@@ -46,8 +46,9 @@ function P5Sketch() {
       p5.createCanvas(1500, 1500).parent(canvasParentRef);
       // Initialize environment instance
       environ.current = new Environment(p5, 135, 72);
-      environ.current.board[10][10] = new Monkey(p5, 100, 1, environ.current);
-      environ.current.board[10][11] = new Monkey(p5, 20, .5, environ.current);
+      new Monkey(p5,10,10, 20, .5, environ.current, false);
+      new Monkey(p5,20,10, 20, .5, environ.current, true);
+
       environ.current.drawBoard(p5);
     };
   
