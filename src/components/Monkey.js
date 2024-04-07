@@ -30,17 +30,26 @@ class Monkey extends Box {
             const startY = Math.max(0, this.y - this.sight); // Calculate the starting Y position for scanning
             const endY = Math.min(this.environ.board[0].length - 1, this.y + this.sight); // Calculate the ending Y position for scanning
 
+            let closestFoodDistance = Infinity; // Initialize the closest food distance as infinity
+            let closestFoodPosition = undefined; // Initialize the closest food position as undefined
+
             // Iterate through the area within the sight of the monkey
             for (let i = startX; i <= endX; i++) {
                 for (let j = startY; j <= endY; j++) {
                     const box = this.environ.board[i][j]; // Get the box at the current position
                     if (box.kind == 'food') { // Check if the box is a Fruit
-                        this.hasSeenFood = { x: i, y: j }; // Add the position of the fruit to the food array
-                        return; // Return the array of food positions
+                        const distance = Math.abs(this.x - i) + Math.abs(this.y - j); // Calculate the distance between the monkey and the food
+                        if (distance < closestFoodDistance) { // If the distance is smaller than the closest food distance
+                            closestFoodDistance = distance; // Update the closest food distance
+                            closestFoodPosition = { x: i, y: j }; // Update the closest food position
+                        }
                     }
                 }
             }
-            return;
+
+            if (closestFoodPosition !== undefined) {
+                this.hasSeenFood = closestFoodPosition; // Set the closest food position as the hasSeenFood
+            }
         }
     }
 
@@ -58,8 +67,6 @@ class Monkey extends Box {
                     const box = this.environ.board[i][j]; // Get the box at the current position
                     if (box.kind == 'monkey' && box.isFemale != this.isFemale && !box.isDead) { // Check if the box is a Monkey, alive, and the opposite gender
                         this.isFemale ? this.hasSeenMate = { x: i-1, y: j-1 } : this.hasSeenMate = {x: i+1, y: j+1}; //females on the left, males on the right
-                        console.log("mate seen")
-                        console.log(this.hasSeenMate)
                         return;
                     }
                 }
@@ -82,13 +89,18 @@ class Monkey extends Box {
 
             if (mateX < this.x) {
                 this.x--;
+                console.log('moving')
             } else if (mateX > this.x) {
                 this.x++;
+                console.log('moving')
             }
             if (mateY < this.y) {
                 this.y--;
+                console.log('moving')
+
             } else if (mateY > this.y) {
                 this.y++;
+                console.log('moving')
             }
 
                 // Check if the monkeys are next to each other
@@ -99,6 +111,7 @@ class Monkey extends Box {
                     const babySight = (this.sight + mate.mateSight) / 2;
                     const babySpeed = (this.speed + mate.mateSpeed) / 2;
                     if(this.isFemale){
+                        console.log('mated successfully')
                         this.environ.board[this.x+1][this.y+1] = new Monkey(p5, babySight, babySpeed, this.environ, Math.random() < 0.5);
                         return;
                 }
@@ -109,7 +122,8 @@ class Monkey extends Box {
 }
     move(p5) {
         this.scanFood();
-        this.scanMate();
+        // this.scanMate();
+        console.log(this.hasSeenMate)
         if (!this.isDead) {
             if(this.hasSeenMate !== undefined){
                 this.mate(p5)

@@ -48,6 +48,7 @@ function P5Sketch() {
       environ.current = new Environment(p5, 135, 72);
       new Monkey(p5,10,10, 20, .5, environ.current, false);
       new Monkey(p5,20,10, 20, .5, environ.current, true);
+      new Monkey(p5,20,15, 20, .5, environ.current, true);
 
       environ.current.drawBoard(p5);
     };
