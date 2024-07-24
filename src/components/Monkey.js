@@ -8,7 +8,7 @@ class Monkey extends Box {
         super(p5, 'monkey');
         this.isDead = false;
         this.sight = sight;
-        this.speed = speed; //value inbetween 0 and 1. 1 is fastest 
+        this.speed = speed; //value inbetween 0 and 1, 1 is fastest 
         this.hunger = 1500;
         this.color = this.isDead ? p5.color(255, 255, 255) : p5.color(69, 44, 21);
         this.environ = environ;
