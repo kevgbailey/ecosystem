@@ -9,6 +9,8 @@ class Box {
             this.color = p5.color(p5.random(99, 110), p5.random(219, 230), p5.random(65, 70));
         } else if (this.kind == 'food') {
            this.color = p5.color(247, 15, 2);
+        } else if (this.kind == 'jaguar') {
+           this.color = p5.color(204, 153, 51); // Mustard-brown-yellow
         }
     }
 
